@@ -5,22 +5,18 @@
 
 include_dir = include_directories('.')
 
-if not is_subproject
-	install_subdir('toml++', install_dir: get_option('includedir'))
-endif
+install_subdir('toml++', install_dir: get_option('includedir'))
 
 if not build_lib # header-only mode
 
 	tomlplusplus_dep = declare_dependency(include_directories: include_dir)
 
-	if not is_subproject
-		import('pkgconfig').generate(
-			name: meson.project_name(),
-			description: 'Header-only TOML config file parser and serializer for C++',
-			install_dir: get_option('datadir')/'pkgconfig',
-			url: 'https://marzer.github.io/tomlplusplus'
-		)
-	endif
+	import('pkgconfig').generate(
+		name: meson.project_name(),
+		description: 'Header-only TOML config file parser and serializer for C++',
+		install_dir: get_option('datadir')/'pkgconfig',
+		url: 'https://marzer.github.io/tomlplusplus'
+	)
 
 	# cmake
 	if get_option('generate_cmake_config') and not is_subproject and not is_devel

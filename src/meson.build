@@ -32,7 +32,7 @@ tomlplusplus_lib = library(
 	cpp_args: lib_internal_args,
 	gnu_symbol_visibility: get_option('default_library') == 'static' ? '' : 'hidden',
 	include_directories: include_dir,
-	install: not is_subproject,
+	install: true,
 	version: meson.project_version(),
 	override_options: global_overrides
 )
@@ -43,14 +43,12 @@ tomlplusplus_dep = declare_dependency(
 	link_with: tomlplusplus_lib
 )
 
-if not is_subproject
-	import('pkgconfig').generate(
-		tomlplusplus_lib,
-		description: 'TOML config file parser and serializer for C++',
-		extra_cflags: lib_args,
-		url: 'https://marzer.github.io/tomlplusplus'
-	)
-endif
+import('pkgconfig').generate(
+	tomlplusplus_lib,
+	description: 'TOML config file parser and serializer for C++',
+	extra_cflags: lib_args,
+	url: 'https://marzer.github.io/tomlplusplus'
+)
 
 # cmake
 if get_option('generate_cmake_config') and not is_subproject and not is_devel
